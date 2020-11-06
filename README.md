@@ -42,7 +42,7 @@ fn main() {
 
 ## Field attributes
 
-### `#[speedy(length = ...)]`
+### `#[persia_speedy(length = ...)]`
 
 Can be used on most standard containers to specify the field's length.
 Can refer to any of the previous fields.
@@ -50,7 +50,7 @@ Can refer to any of the previous fields.
 For example:
 
 ```rust
-use speedy::{Readable, Writable};
+use persia_speedy::{Readable, Writable};
 
 #[derive(Readable, Writable)]
 struct Struct {
