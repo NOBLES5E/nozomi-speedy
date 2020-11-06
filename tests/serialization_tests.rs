@@ -1371,6 +1371,18 @@ symmetric_tests! {
     }
 }
 
+#[cfg(feature = "ndarray")]
+symmetric_tests! {
+    ndarray_f16 for ndarray::Array2< half::f16 > {
+        in = {
+            ndarray::Array2::from_shape_vec((2, 3), vec![1.0f32, 2., 3., 4., 5., 6.,].into_iter().map(half::f16::from_f32).collect()).unwrap()
+        },
+        le = [2, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0, 0, 60, 0, 64, 0, 66, 0, 68, 0, 69, 0, 70],
+        be = [0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 6, 60, 0, 64, 0, 66, 0, 68, 0, 69, 0, 70, 0],
+        minimum_bytes = 8
+    }
+}
+
 #[cfg(feature = "bytes")]
 symmetric_tests! {
     bytes for ::bytes::Bytes {

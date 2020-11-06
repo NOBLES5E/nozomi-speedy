@@ -1,5 +1,6 @@
 #![cfg_attr(feature = "external_doc", feature(external_doc))]
 #![cfg_attr(feature = "external_doc", doc(include = "../README.md"))]
+#![feature(min_const_generics)]
 
 mod error;
 #[macro_use]
@@ -25,6 +26,8 @@ mod ext_hashbrown;
 mod ext_bytes;
 #[cfg(feature = "indexmap")]
 mod ext_indexmap;
+#[cfg(feature = "ndarray")]
+mod ext_ndarray;
 
 #[doc(hidden)]
 pub mod private;

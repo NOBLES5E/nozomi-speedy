@@ -19,6 +19,8 @@ smallvec = { version = "1", optional = true }
 hashbrown = { version = "0.9", optional = true }
 bytes = { version = "0.6", optional = true }
 indexmap = { version = "1.6", optional = true }
+ndarray = { version = "0.13", optional = true }
+half = { version = "1.6", features = ["alloc"] }
 
 [dev-dependencies]
 quickcheck = "0.9"
@@ -30,7 +32,7 @@ panic = "abort"
 members = [".", "persia-speedy-derive", "static-tests"]
 
 [features]
-default = ["persia-speedy-derive", "chrono", "smallvec", "hashbrown", "bytes", "indexmap"]
+default = ["persia-speedy-derive", "chrono", "smallvec", "hashbrown", "bytes", "indexmap", "ndarray"]
 external_doc = []
 
 [package.metadata.docs.rs]
