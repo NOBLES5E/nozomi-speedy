@@ -1,6 +1,6 @@
 [package]
 name = "persia-speedy"
-version = "0.7.9"
+version = "0.7.10"
 authors = ["Jan Bujak <j@exia.io>", "Xiangu Lian <admin@mail.xrlian.com>"]
 repository = "https://github.com/NOBLES5E/speedy"
 homepage = "https://github.com/NOBLES5E/speedy"
