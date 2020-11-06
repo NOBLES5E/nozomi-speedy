@@ -1,6 +1,6 @@
 [package]
 name = "persia-speedy"
-version = "0.7.4"
+version = "0.7.5"
 authors = ["Jan Bujak <j@exia.io>", "Xiangu Lian <admin@mail.xrlian.com>"]
 repository = "https://github.com/koute/speedy"
 homepage = "https://github.com/koute/speedy"
@@ -28,7 +28,7 @@ panic = "abort"
 members = [".", "persia-speedy-derive", "static-tests"]
 
 [features]
-default = ["persia-speedy-derive"]
+default = ["persia-speedy-derive", "chrono", "smallvec", "hashbrown"]
 external_doc = []
 
 [package.metadata.docs.rs]
