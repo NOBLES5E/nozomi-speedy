@@ -1,20 +1,8 @@
-[![Build Status](https://api.travis-ci.org/koute/speedy.svg)](https://travis-ci.org/koute/speedy)
-
-# A fast binary serialization framework
-
-[![Documentation](https://docs.rs/speedy/badge.svg)](https://docs.rs/speedy/*/speedy/)
-
-The goal of this crate is to provide fast, simple and easy binary serialization.
-
-## Benchmarks
-
-See [serde-bench](https://github.com/koute/serde-bench) for benchmarks.
-
 ## Example
 
 ```rust
 use std::borrow::Cow;
-use speedy::{Readable, Writable, Endianness};
+use persia_speedy::{Readable, Writable, Endianness};
 
 #[derive(PartialEq, Debug, Readable, Writable)]
 enum Enum {
@@ -51,57 +39,6 @@ fn main() {
     assert_eq!( original, deserialized );
 }
 ```
-
-## Supported types
-
-Out-of-box the following types are supported:
-
-|                    Type |                            Serialized as |
-| ----------------------- | ---------------------------------------- |
-|                    `u8` |                                    as-is |
-|                   `u16` |                                    as-is |
-|                   `u32` |                                    as-is |
-|                   `u64` |                                    as-is |
-|                 `usize` |                                    `u64` |
-|                    `i8` |                                    as-is |
-|                   `i16` |                                    as-is |
-|                   `i32` |                                    as-is |
-|                   `i64` |                                    as-is |
-|                   `f32` |                                    as-is |
-|                   `f64` |                                    as-is |
-|                  `bool` |                  `u8`, either `0` or `1` |
-|                  `char` |                                    `u32` |
-|                `String` |             `{length: u32, bytes: [u8]}` |
-|          `Cow<'a, str>` |             `{length: u32, bytes: [u8]}` |
-|                `Vec<T>` |             `{length: u32, values: [T]}` |
-|          `Cow<'a, [T]>` |             `{length: u32, values: [T]}` |
-|         `HashMap<K, V>` |          `{length: u32, values: [K, V]}` |
-|        `BTreeMap<K, V>` |          `{length: u32, values: [K, V]}` |
-|            `HashSet<T>` |             `{length: u32, values: [T]}` |
-|           `BTreeSet<T>` |             `{length: u32, values: [T]}` |
-|              `Range<T>` |                                 `(T, T)` |
-|             `Option<T>` |                    `(1_u8, T)` or `0_u8` |
-|                    `()` |                                  nothing |
-|                   `(T)` |                                    as-is |
-|                `(T, T)` |                                    as-is |
-|            `(T, .., T)` |                                    as-is |
-|                 `enum`s |                 `{tag: u32, variant: T}` |
-|              `AtomicU8` |                                     `u8` |
-|              `AtomicI8` |                                     `i8` |
-|             `AtomicU16` |                                    `u16` |
-|             `AtomicI16` |                                    `i16` |
-|             `AtomicU32` |                                    `u32` |
-|             `AtomicI32` |                                    `i32` |
-|             `AtomicU64` |                                    `u64` |
-|             `AtomicI64` |                                    `i64` |
-|            `NonZeroU32` |                                    `u32` |
-|    `std::net::Ipv4Addr` |                                    `u32` |
-|    `std::net::Ipv6Addr` |                                   `u128` |
-|      `std::net::IpAddr` |    `{is_ipv4: u8, value: {u32 or u128}}` |
-|   `std::time::Duration` |         `{secs: u64, subsec_nanos: u32}` |
-| `std::time::SystemTime` | `std::time::Duration` since `UNIX_EPOCH` |
-
-These are stable and will not change in the future.
 
 ## Field attributes
 
