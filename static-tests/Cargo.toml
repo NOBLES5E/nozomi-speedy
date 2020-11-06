@@ -9,4 +9,4 @@ publish = false
 
 [dev-dependencies]
 static_test = "0.1"
-speedy = { path = ".." }
+persia-speedy = { path = ".." }
