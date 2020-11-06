@@ -1356,6 +1356,16 @@ symmetric_tests! {
     }
 }
 
+#[cfg(feature = "bytes")]
+symmetric_tests! {
+    bytes for ::bytes::Bytes {
+        in = ::bytes::Bytes::from(vec![1, 2, 3, 5]),
+        le = [4, 0, 0, 0, 1, 2, 3, 5],
+        be = [0, 0, 0, 4, 1, 2, 3, 5],
+        minimum_bytes = 4
+    }
+}
+
 #[cfg(feature = "chrono")]
 symmetric_tests! {
     chrono_datetime_utc for chrono::DateTime< chrono::Utc > {

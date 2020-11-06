@@ -24,6 +24,9 @@ mod ext_smallvec;
 #[cfg(feature = "hashbrown")]
 mod ext_hashbrown;
 
+#[cfg(feature = "bytes")]
+mod ext_bytes;
+
 #[doc(hidden)]
 pub mod private;
 
