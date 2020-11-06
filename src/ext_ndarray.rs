@@ -37,7 +37,7 @@ impl<'a, C> Readable<'a, C> for ArrayBase<OwnedRepr<f16>, ndarray::Dim<[usize; 2
     #[inline]
     fn read_from<R: Reader<'a, C>>(reader: &mut R) -> Result<Self, C::Error> {
         let shape: Vec<usize> = Readable::read_from(reader)?;
-        let shape: [usize; 2] = shape.try_into().unwrap();
+        let shape: [usize; 2] = shape.as_slice().try_into().unwrap();
         let data: Vec<u16> = Readable::read_from(reader)?;
         let data: Vec<f16> = data.reinterpret_into();
         Ok(unsafe { Self::from_shape_vec_unchecked(shape, data) })
@@ -55,7 +55,7 @@ impl<'a, C> Readable<'a, C> for ArrayBase<OwnedRepr<f16>, ndarray::Dim<[usize; 1
     #[inline]
     fn read_from<R: Reader<'a, C>>(reader: &mut R) -> Result<Self, C::Error> {
         let shape: Vec<usize> = Readable::read_from(reader)?;
-        let shape: [usize; 1] = shape.try_into().unwrap();
+        let shape: [usize; 1] = shape.as_slice().try_into().unwrap();
         let data: Vec<u16> = Readable::read_from(reader)?;
         let data: Vec<f16> = data.reinterpret_into();
         Ok(unsafe { Self::from_shape_vec_unchecked(shape, data) })
