@@ -1356,6 +1356,21 @@ symmetric_tests! {
     }
 }
 
+#[cfg(feature = "indexmap")]
+symmetric_tests! {
+    indexmap_indexmap for indexmap::IndexMap< u64, Vec<u32> > {
+        in = {
+            let mut map = indexmap::IndexMap::new();
+            map.insert(100, vec![1, 2, 3]);
+            map.insert(101, vec![2, 3, 4]);
+            map
+        },
+        le = [2, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 101, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 4, 0, 0, 0],
+        be = [0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 101, 0, 0, 0, 3, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0, 4],
+        minimum_bytes = 4
+    }
+}
+
 #[cfg(feature = "bytes")]
 symmetric_tests! {
     bytes for ::bytes::Bytes {

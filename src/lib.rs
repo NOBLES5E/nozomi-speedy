@@ -17,15 +17,14 @@ mod circular_buffer;
 
 #[cfg(feature = "chrono")]
 mod ext_chrono;
-
 #[cfg(feature = "smallvec")]
 mod ext_smallvec;
-
 #[cfg(feature = "hashbrown")]
 mod ext_hashbrown;
-
 #[cfg(feature = "bytes")]
 mod ext_bytes;
+#[cfg(feature = "indexmap")]
+mod ext_indexmap;
 
 #[doc(hidden)]
 pub mod private;
