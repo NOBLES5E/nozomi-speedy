@@ -1342,6 +1342,20 @@ symmetric_tests! {
     }
 }
 
+#[cfg(feature = "hashbrown")]
+symmetric_tests! {
+    hashbrown_hashmap for hashbrown::HashMap< u64, Vec<u32> > {
+        in = {
+            let mut map = hashbrown::HashMap::new();
+            map.insert(100, vec![1, 2, 3]);
+            map
+        },
+        le = [1, 0, 0, 0, 100, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0],
+        be = [0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 100, 0, 0, 0, 3, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 3],
+        minimum_bytes = 4
+    }
+}
+
 #[cfg(feature = "chrono")]
 symmetric_tests! {
     chrono_datetime_utc for chrono::DateTime< chrono::Utc > {

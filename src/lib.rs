@@ -21,6 +21,9 @@ mod ext_chrono;
 #[cfg(feature = "smallvec")]
 mod ext_smallvec;
 
+#[cfg(feature = "hashbrown")]
+mod ext_hashbrown;
+
 #[doc(hidden)]
 pub mod private;
 
