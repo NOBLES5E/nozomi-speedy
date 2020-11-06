@@ -1,4 +1,5 @@
 **/*.rs.bk
+.idea/
 target
 Cargo.lock
 speedy-derive/target

@@ -197,6 +197,20 @@ mod tests {
     }
 
     #[test]
+    fn read_write_result() {
+        let original : Result<(), ()> = Ok(());
+        let serialized = original.write_to_vec_with_ctx( Endianness::NATIVE ).unwrap();
+        let deserialized: Result<(), ()> = Readable::read_from_buffer_with_ctx( Endianness::NATIVE, &serialized ).unwrap();
+        assert_eq!( original, deserialized );
+
+        let original : Result<(), String> = Err("test".into());
+        let serialized = original.write_to_vec_with_ctx( Endianness::NATIVE ).unwrap();
+        let deserialized: Result<(), String> = Readable::read_from_buffer_with_ctx( Endianness::NATIVE, &serialized ).unwrap();
+        assert_eq!( original, deserialized );
+    }
+
+
+    #[test]
     fn read_big_vector_of_vectors_from_stream_buffered() {
         const fn hash32( x: u32 ) -> u32 {
             let mut x = x.wrapping_mul( 0xa4d94a4f );

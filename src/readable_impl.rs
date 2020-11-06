@@ -232,6 +232,25 @@ impl< 'a, C: Context, T: Readable< 'a, C > > Readable< 'a, C > for Cow< 'a, [T] 
     }
 }
 
+impl< 'a, C: Context, T: Readable< 'a, C >, V: Readable<'a, C> > Readable< 'a, C > for Result< T, V > {
+    #[inline]
+    fn read_from< R: Reader< 'a, C > >( reader: &mut R ) -> Result< Self, C::Error > {
+        let value = reader.read_u8()?;
+        if value == 0 {
+            Ok(Err( V::read_from( reader )? ))
+        } else if value == 1 {
+            Ok(Ok( T::read_from( reader )? ))
+        } else {
+            Err(crate::error::error_too_big_usize_for_this_architecture())
+        }
+    }
+
+    #[inline]
+    fn minimum_bytes_needed() -> usize {
+        1
+    }
+}
+
 impl< 'a, C: Context, T: Readable< 'a, C > > Readable< 'a, C > for Range< T > {
     #[inline]
     fn read_from< R: Reader< 'a, C > >( reader: &mut R ) -> Result< Self, C::Error > {

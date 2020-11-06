@@ -266,6 +266,30 @@ impl< C: Context, T: Writable< C > > Writable< C > for Vec< T > {
     }
 }
 
+impl< C: Context, T: Writable< C >, V: Writable< C > > Writable< C > for Result< T, V > {
+    #[inline]
+    fn write_to< W: ?Sized + Writer< C > >( &self, writer: &mut W ) -> Result< (), C::Error > {
+        match *self {
+            Ok(ref value) => {
+                writer.write_u8( 1 )?;
+                value.write_to( writer )
+            }
+            Err(ref value) => {
+                writer.write_u8( 0 )?;
+                value.write_to( writer )
+            }
+        }
+    }
+
+    #[inline]
+    fn bytes_needed( &self ) -> Result< usize, C::Error > {
+        match *self {
+            Ok(ref value) => { Ok( 1 + value.bytes_needed()? ) }
+            Err(ref value) => { Ok( 1 + value.bytes_needed()? ) }
+        }
+    }
+}
+
 impl< C: Context, T: Writable< C > > Writable< C > for Range< T > {
     #[inline]
     fn write_to< W: ?Sized + Writer< C > >( &self, writer: &mut W ) -> Result< (), C::Error > {
