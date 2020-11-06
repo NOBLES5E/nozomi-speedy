@@ -1,6 +1,6 @@
 [package]
 name = "persia-speedy-derive"
-version = "0.7.2"
+version = "0.7.3"
 authors = ["Jan Bujak <j@exia.io>", "Xiangru Lian <admin@mail.xrlian.com>"]
 repository = "https://github.com/koute/speedy"
 homepage = "https://github.com/koute/speedy"
