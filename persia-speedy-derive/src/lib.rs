@@ -169,9 +169,9 @@ fn common_tokens( ast: &syn::DeriveInput, types: &[syn::Type], trait_variant: Tr
         let constraints = types.iter().filter_map( |ty| {
             let possibly_generic = possibly_uses_generic_ty( &generics, ty );
             match (trait_variant, possibly_generic) {
-                (Trait::Readable, true) => Some( quote! { #ty: speedy::Readable< 'a_, C_ > } ),
+                (Trait::Readable, true) => Some( quote! { #ty: persia_speedy::Readable< 'a_, C_ > } ),
                 (Trait::Readable, false) => None,
-                (Trait::Writable, true) => Some( quote! { #ty: speedy::Writable< C_ > } ),
+                (Trait::Writable, true) => Some( quote! { #ty: persia_speedy::Writable< C_ > } ),
                 (Trait::Writable, false) => None
             }
         });
@@ -1031,7 +1031,7 @@ fn default_on_eof_body( body: TokenStream ) -> TokenStream {
     quote! {
         match #body {
             Ok( value ) => value,
-            Err( ref error ) if speedy::IsEof::is_eof( error ) => std::default::Default::default(),
+            Err( ref error ) if persia_speedy::IsEof::is_eof( error ) => std::default::Default::default(),
             Err( error ) => return Err( error )
         }
     }
@@ -1057,7 +1057,7 @@ fn read_field_body( field: &Field ) -> TokenStream {
             };
 
             let body = quote! {
-                speedy::private::#read_length_fn( _reader_ )
+                persia_speedy::private::#read_length_fn( _reader_ )
             };
 
             if field.default_on_eof {
@@ -1071,7 +1071,7 @@ fn read_field_body( field: &Field ) -> TokenStream {
     let read_string = ||
         quote! {{
             let _length_ = #read_length_body;
-            _reader_.read_vec( _length_ ).and_then( speedy::private::vec_to_string )
+            _reader_.read_vec( _length_ ).and_then( persia_speedy::private::vec_to_string )
         }};
 
     let read_vec = ||
@@ -1089,7 +1089,7 @@ fn read_field_body( field: &Field ) -> TokenStream {
     let read_cow_str = ||
         quote! {{
             let _length_ = #read_length_body;
-            _reader_.read_cow( _length_ ).and_then( speedy::private::cow_bytes_to_cow_str )
+            _reader_.read_cow( _length_ ).and_then( persia_speedy::private::cow_bytes_to_cow_str )
         }};
 
     let read_collection = ||
@@ -1156,7 +1156,7 @@ fn read_field_body( field: &Field ) -> TokenStream {
 
     let body = if let Some( ref constant_prefix ) = field.constant_prefix {
         quote! {{
-            speedy::private::read_constant( _reader_, #constant_prefix ).and_then( |_| #body )
+            persia_speedy::private::read_constant( _reader_, #constant_prefix ).and_then( |_| #body )
         }}
     } else {
         body
@@ -1204,8 +1204,8 @@ fn write_field_body( field: &Field ) -> TokenStream {
         Some( ref length ) => {
             let field_name = format!( "{}", name );
             quote! {
-                if !speedy::private::are_lengths_the_same( #name.len(), #length ) {
-                    return Err( speedy::private::error_length_is_not_the_same_as_length_attribute( #field_name ) );
+                if !persia_speedy::private::are_lengths_the_same( #name.len(), #length ) {
+                    return Err( persia_speedy::private::error_length_is_not_the_same_as_length_attribute( #field_name ) );
                 }
             }
         },
@@ -1219,7 +1219,7 @@ fn write_field_body( field: &Field ) -> TokenStream {
                 BasicType::VarInt64 => quote! { write_length_u64_varint }
             };
 
-            quote! { speedy::private::#write_length_fn( #name.len(), _writer_ )?; }
+            quote! { persia_speedy::private::#write_length_fn( #name.len(), _writer_ )?; }
         }
     };
 
@@ -1481,11 +1481,11 @@ fn get_minimum_bytes( field: &Field ) -> Option< TokenStream > {
                     },
                     | Ty::Array( ty, length ) => {
                         let length = *length as usize;
-                        quote! { <#ty as speedy::Readable< 'a_, C_ >>::minimum_bytes_needed() * #length }
+                        quote! { <#ty as persia_speedy::Readable< 'a_, C_ >>::minimum_bytes_needed() * #length }
                     },
                     | Ty::Ty( .. ) => {
                         let raw_ty = &field.raw_ty;
-                        quote! { <#raw_ty as speedy::Readable< 'a_, C_ >>::minimum_bytes_needed() }
+                        quote! { <#raw_ty as persia_speedy::Readable< 'a_, C_ >>::minimum_bytes_needed() }
                     }
                 }
             }
@@ -1590,7 +1590,7 @@ fn impl_readable( input: syn::DeriveInput ) -> Result< TokenStream, syn::Error >
                 let kind_ = _reader_.#tag_reader()?;
                 match kind_ {
                     #(#variant_matches),*
-                    _ => Err( speedy::private::error_invalid_enum_variant() )
+                    _ => Err( persia_speedy::private::error_invalid_enum_variant() )
                 }
             };
             let minimum_bytes_needed_body = min( variant_minimum_sizes.into_iter() );
@@ -1611,9 +1611,9 @@ fn impl_readable( input: syn::DeriveInput ) -> Result< TokenStream, syn::Error >
 
     let (impl_params, ty_params, where_clause) = common_tokens( &input, &types, Trait::Readable );
     let output = quote! {
-        impl< 'a_, #impl_params C_: speedy::Context > speedy::Readable< 'a_, C_ > for #name #ty_params #where_clause {
+        impl< 'a_, #impl_params C_: persia_speedy::Context > persia_speedy::Readable< 'a_, C_ > for #name #ty_params #where_clause {
             #[inline]
-            fn read_from< R_: speedy::Reader< 'a_, C_ > >( _reader_: &mut R_ ) -> std::result::Result< Self, C_::Error > {
+            fn read_from< R_: persia_speedy::Reader< 'a_, C_ > >( _reader_: &mut R_ ) -> std::result::Result< Self, C_::Error > {
                 #reader_body
             }
 
@@ -1701,9 +1701,9 @@ fn impl_writable( input: syn::DeriveInput ) -> Result< TokenStream, syn::Error >
 
     let (impl_params, ty_params, where_clause) = common_tokens( &input, &types, Trait::Writable );
     let output = quote! {
-        impl< #impl_params C_: speedy::Context > speedy::Writable< C_ > for #name #ty_params #where_clause {
+        impl< #impl_params C_: persia_speedy::Context > persia_speedy::Writable< C_ > for #name #ty_params #where_clause {
             #[inline]
-            fn write_to< T_: ?Sized + speedy::Writer< C_ > >( &self, _writer_: &mut T_ ) -> std::result::Result< (), C_::Error > {
+            fn write_to< T_: ?Sized + persia_speedy::Writer< C_ > >( &self, _writer_: &mut T_ ) -> std::result::Result< (), C_::Error > {
                 #writer_body
                 Ok(())
             }

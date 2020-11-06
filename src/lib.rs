@@ -24,8 +24,8 @@ mod ext_smallvec;
 #[doc(hidden)]
 pub mod private;
 
-#[cfg(feature = "speedy-derive")]
-pub use speedy_derive::{Readable, Writable};
+#[cfg(feature = "persia-speedy-derive")]
+pub use persia_speedy_derive::{Readable, Writable};
 
 pub use crate::readable::Readable;
 pub use crate::reader::Reader;

@@ -5,7 +5,7 @@ use std::fmt::Debug;
 use std::num::NonZeroU32;
 
 #[allow(unused_imports)]
-use speedy::{Readable, Writable, Endianness};
+use persia_speedy::{Readable, Writable, Endianness};
 
 macro_rules! symmetric_tests {
     ($(
@@ -439,7 +439,7 @@ struct DerivedStructWithSkippedField {
 }
 
 mod inner {
-    use speedy::{Readable, Writable};
+    use persia_speedy::{Readable, Writable};
 
     #[derive(Readable, Writable)]
     struct Private {
@@ -1370,7 +1370,7 @@ symmetric_tests! {
 
 #[test]
 fn test_derived_struct_with_default_on_eof() {
-    use speedy::{
+    use persia_speedy::{
        Readable,
        Endianness
     };
@@ -1396,7 +1396,7 @@ fn test_derived_struct_with_default_on_eof() {
 
 #[test]
 fn test_length_mismatch_with_length_attribute() {
-    use speedy::{
+    use persia_speedy::{
         Endianness,
         Writable
     };
@@ -1415,8 +1415,8 @@ fn test_length_mismatch_with_length_attribute() {
 #[test]
 fn test_zero_non_zero() {
     let error = NonZeroU32::read_from_buffer( &[0, 0, 0, 0] ).unwrap_err();
-    match speedy::private::get_error_kind( &error ) {
-        speedy::private::ErrorKind::ZeroNonZero => {},
+    match persia_speedy::private::get_error_kind( &error ) {
+        persia_speedy::private::ErrorKind::ZeroNonZero => {},
         error => panic!( "Unexpected error: {:?}", error )
     }
 }
@@ -1424,8 +1424,8 @@ fn test_zero_non_zero() {
 #[test]
 fn test_vec_with_length_type_u7_read_out_of_range_length() {
     let error = DerivedStructWithVecWithLengthTypeU7::read_from_buffer( &[0x80] ).unwrap_err();
-    match speedy::private::get_error_kind( &error ) {
-        speedy::private::ErrorKind::OutOfRangeLength => {},
+    match persia_speedy::private::get_error_kind( &error ) {
+        persia_speedy::private::ErrorKind::OutOfRangeLength => {},
         error => panic!( "Unexpected error: {:?}", error )
     }
 }
@@ -1433,21 +1433,21 @@ fn test_vec_with_length_type_u7_read_out_of_range_length() {
 #[test]
 fn test_prefix_constant_mismatch() {
     let error = DerivedStructWithConstantPrefixString::read_from_buffer( &[0x41, 0x42] ).unwrap_err();
-    match speedy::private::get_error_kind( &error ) {
-        speedy::private::ErrorKind::InputBufferIsTooSmall { .. } => {},
+    match persia_speedy::private::get_error_kind( &error ) {
+        persia_speedy::private::ErrorKind::InputBufferIsTooSmall { .. } => {},
         error => panic!( "Unexpected error: {:?}", error )
     }
 
     let error = DerivedStructWithConstantPrefixString::read_from_buffer( &[0x41, 0x42, 0x00] ).unwrap_err();
-    match speedy::private::get_error_kind( &error ) {
-        speedy::private::ErrorKind::ExpectedConstant { .. } => {},
+    match persia_speedy::private::get_error_kind( &error ) {
+        persia_speedy::private::ErrorKind::ExpectedConstant { .. } => {},
         error => panic!( "Unexpected error: {:?}", error )
     }
 }
 
 #[test]
 fn test_minimum_bytes_needed() {
-    use speedy::{
+    use persia_speedy::{
         Readable,
         Endianness
     };

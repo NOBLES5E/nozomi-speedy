@@ -1,7 +1,7 @@
 [package]
-name = "speedy-derive"
-version = "0.7.1"
-authors = ["Jan Bujak <j@exia.io>"]
+name = "persia-speedy-derive"
+version = "0.7.2"
+authors = ["Jan Bujak <j@exia.io>", "Xiangru Lian <admin@mail.xrlian.com>"]
 repository = "https://github.com/koute/speedy"
 homepage = "https://github.com/koute/speedy"
 documentation = "https://docs.rs/speedy/*/speedy/"

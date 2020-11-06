@@ -13,7 +13,7 @@ description = "A fast binary serialization framework"
 edition = "2018"
 
 [dependencies]
-speedy-derive = { version = "= 0.7.1", path = "speedy-derive", optional = true }
+persia-speedy-derive = { version = "= 0.7.2", path = "persia-speedy-derive", optional = true }
 chrono = { version = "0.4", optional = true }
 smallvec = { version = "1", optional = true }
 
@@ -24,10 +24,10 @@ quickcheck = "0.9"
 panic = "abort"
 
 [workspace]
-members = [".", "speedy-derive", "static-tests"]
+members = [".", "persia-speedy-derive", "static-tests"]
 
 [features]
-default = ["speedy-derive"]
+default = ["persia-speedy-derive"]
 external_doc = []
 
 [package.metadata.docs.rs]
