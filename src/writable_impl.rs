@@ -145,6 +145,7 @@ impl_for_primitive!( u32, write_u32 );
 impl_for_primitive!( u64, write_u64 );
 impl_for_primitive!( f32, write_f32 );
 impl_for_primitive!( f64, write_f64 );
+impl_for_primitive!( half::f16, write_f16 );
 
 impl< C: Context > Writable< C > for usize {
     #[inline]

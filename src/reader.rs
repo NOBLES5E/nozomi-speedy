@@ -81,6 +81,10 @@ pub trait Reader< 'a, C: Context >: Sized {
         Ok( self.context().endianness().read_u16( &slice ) )
     }
 
+    fn read_f16( &mut self ) -> Result< half::f16, C::Error > {
+        Ok( half::f16::from_bits(self.read_u16()?) )
+    }
+
     #[inline(always)]
     fn peek_u16( &mut self ) -> Result< u16, C::Error > {
         if self.can_read_at_least( 2 ) == Some( false ) {
@@ -90,6 +94,11 @@ pub trait Reader< 'a, C: Context >: Sized {
         let mut slice: [u8; 2] = unsafe { MaybeUninit::uninit().assume_init() };
         self.peek_bytes( &mut slice )?;
         Ok( self.context().endianness().read_u16( &slice ) )
+    }
+
+    #[inline(always)]
+    fn peek_f16( &mut self ) -> Result< half::f16, C::Error > {
+        Ok(half::f16::from_bits(self.peek_u16()?))
     }
 
     #[inline(always)]

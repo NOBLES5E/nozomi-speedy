@@ -160,6 +160,7 @@ impl_for_primitive!( u32, read_u32, swap_slice_u32 );
 impl_for_primitive!( u64, read_u64, swap_slice_u64 );
 impl_for_primitive!( f32, read_f32, swap_slice_f32 );
 impl_for_primitive!( f64, read_f64, swap_slice_f64 );
+impl_for_primitive!( half::f16, read_f16, swap_slice_f16 );
 
 impl< 'a, C: Context > Readable< 'a, C > for usize {
     #[inline]

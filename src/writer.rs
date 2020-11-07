@@ -76,6 +76,12 @@ pub trait Writer< C: Context > {
     }
 
     #[inline(always)]
+    fn write_f16( &mut self, value: half::f16 ) -> Result< (), C::Error > {
+        let value: u16 = value.to_bits();
+        self.write_u16( value )
+    }
+
+    #[inline(always)]
     fn endianness( &self ) -> Endianness {
         self.context().endianness()
     }

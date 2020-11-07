@@ -113,6 +113,15 @@ impl Endianness {
     }
 
     #[inline]
+    pub fn swap_slice_f16( self, slice: &mut [half::f16] ) {
+        let slice = unsafe {
+            core::slice::from_raw_parts_mut( slice.as_mut_ptr() as *mut u16, slice.len() )
+        };
+
+        self.swap_slice_u16( slice );
+    }
+
+    #[inline]
     pub fn swap_slice_f64( self, slice: &mut [f64] ) {
         let slice = unsafe {
             core::slice::from_raw_parts_mut( slice.as_mut_ptr() as *mut u64, slice.len() )
