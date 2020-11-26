@@ -30,9 +30,10 @@ unsafe impl Primitive for u32 {}
 unsafe impl Primitive for i64 {}
 unsafe impl Primitive for u64 {}
 unsafe impl Primitive for u128 {}
+
+unsafe impl Primitive for half::f16 {}
 unsafe impl Primitive for f32 {}
 unsafe impl Primitive for f64 {}
-unsafe impl Primitive for half::f16 {}
 
 #[inline(always)]
 pub fn as_bytes< T: Primitive >( slice: &[T] ) -> &[u8] {
