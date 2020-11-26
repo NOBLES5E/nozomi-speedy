@@ -1424,10 +1424,11 @@ symmetric_tests! {
     }
 }
 
+use std::str::FromStr;
 #[cfg(feature = "tinystr")]
 symmetric_tests! {
     tinystr16 for tinystr::TinyStr16 {
-        in = tinystr::tinystr16!("haha"),
+        in = tinystr::TinyStr16::from_str("haha").unwrap(),
         le = [104, 97, 104, 97, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         be = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 97, 104, 97, 104],
         minimum_bytes = 16
