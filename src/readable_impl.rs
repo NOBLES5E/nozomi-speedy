@@ -158,6 +158,7 @@ impl_for_primitive!( u8, read_u8, swap_slice_u8 );
 impl_for_primitive!( u16, read_u16, swap_slice_u16 );
 impl_for_primitive!( u32, read_u32, swap_slice_u32 );
 impl_for_primitive!( u64, read_u64, swap_slice_u64 );
+impl_for_primitive!( u128, read_u128, swap_slice_u128 );
 impl_for_primitive!( f32, read_f32, swap_slice_f32 );
 impl_for_primitive!( f64, read_f64, swap_slice_f64 );
 impl_for_primitive!( half::f16, read_f16, swap_slice_f16 );
