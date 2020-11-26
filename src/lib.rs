@@ -27,6 +27,8 @@ mod ext_bytes;
 mod ext_indexmap;
 #[cfg(feature = "ndarray")]
 mod ext_ndarray;
+#[cfg(feature = "tinystr")]
+mod ext_tinystr;
 
 #[doc(hidden)]
 pub mod private;

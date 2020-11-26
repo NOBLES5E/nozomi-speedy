@@ -1424,6 +1424,16 @@ symmetric_tests! {
     }
 }
 
+#[cfg(feature = "tinystr")]
+symmetric_tests! {
+    tinystr16 for tinystr::TinyStr16 {
+        in = tinystr::tinystr16!("haha"),
+        le = [104, 97, 104, 97, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        be = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 97, 104, 97, 104],
+        minimum_bytes = 16
+    }
+}
+
 #[test]
 fn test_derived_struct_with_default_on_eof() {
     use persia_speedy::{
