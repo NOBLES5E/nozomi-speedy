@@ -9,7 +9,6 @@ use {
     bytes::Bytes,
 };
 use crate::private::write_length;
-use bytes::Buf;
 use std::mem;
 
 impl< 'a, C > Readable< 'a, C > for Bytes
@@ -34,7 +33,7 @@ impl< C > Writable< C > for Bytes
     #[inline]
     fn write_to< W: ?Sized + Writer< C > >( &self, writer: &mut W ) -> Result< (), C::Error > {
         write_length( self.len(), writer )?;
-        writer.write_bytes(self.bytes())
+        writer.write_bytes(self.as_ref())
     }
 
     #[inline]
