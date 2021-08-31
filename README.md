@@ -42,7 +42,7 @@ fn main() {
 
 ## Field attributes
 
-### `#[persia_speedy(length = ...)]`
+### `#[speedy(length = ...)]`
 
 Can be used on most standard containers to specify the field's length.
 Can refer to any of the previous fields.
