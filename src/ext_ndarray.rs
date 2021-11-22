@@ -1,20 +1,15 @@
+use ndarray::{Dimension, OwnedRepr};
+use std::convert::TryInto;
 use {
-    crate::{
-        Context,
-        Readable,
-        Reader,
-        Writable,
-        Writer,
-    },
+    crate::{Context, Readable, Reader, Writable, Writer},
     ndarray::ArrayBase,
 };
-use ndarray::{OwnedRepr, Dimension};
-use std::convert::TryInto;
 
 impl<C, D, P> Writable<C> for ArrayBase<OwnedRepr<P>, D>
-    where C: Context,
-          D: Dimension,
-          P: Writable<C>,
+where
+    C: Context,
+    D: Dimension,
+    P: Writable<C>,
 {
     #[inline]
     fn write_to<T: ?Sized + Writer<C>>(&self, writer: &mut T) -> Result<(), C::Error> {
@@ -26,14 +21,14 @@ impl<C, D, P> Writable<C> for ArrayBase<OwnedRepr<P>, D>
     #[inline]
     fn bytes_needed(&self) -> Result<usize, C::Error> {
         let data_slice = self.as_slice().unwrap();
-        Ok(Writable::<C>::bytes_needed(self.shape())? +
-            Writable::<C>::bytes_needed(data_slice)?)
+        Ok(Writable::<C>::bytes_needed(self.shape())? + Writable::<C>::bytes_needed(data_slice)?)
     }
 }
 
 impl<'a, C, P> Readable<'a, C> for ArrayBase<OwnedRepr<P>, ndarray::Dim<[usize; 2]>>
-    where C: Context,
-          P: Readable<'a, C>
+where
+    C: Context,
+    P: Readable<'a, C>,
 {
     #[inline]
     fn read_from<R: Reader<'a, C>>(reader: &mut R) -> Result<Self, C::Error> {
@@ -50,8 +45,9 @@ impl<'a, C, P> Readable<'a, C> for ArrayBase<OwnedRepr<P>, ndarray::Dim<[usize; 
 }
 
 impl<'a, C, P> Readable<'a, C> for ArrayBase<OwnedRepr<P>, ndarray::Dim<[usize; 1]>>
-    where C: Context,
-          P: Readable<'a, C>,
+where
+    C: Context,
+    P: Readable<'a, C>,
 {
     #[inline]
     fn read_from<R: Reader<'a, C>>(reader: &mut R) -> Result<Self, C::Error> {

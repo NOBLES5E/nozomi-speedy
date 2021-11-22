@@ -1,20 +1,11 @@
 use {
-    tinystr::{
-        TinyStr4,
-        TinyStr8,
-        TinyStr16,
-    },
-    crate::{
-        Context,
-        Readable,
-        Reader,
-        Writable,
-        Writer,
-    },
+    crate::{Context, Readable, Reader, Writable, Writer},
+    tinystr::{TinyStr16, TinyStr4, TinyStr8},
 };
 
 impl<'a, C> Readable<'a, C> for TinyStr4
-    where C: Context
+where
+    C: Context,
 {
     #[inline]
     fn read_from<R: Reader<'a, C>>(reader: &mut R) -> Result<Self, C::Error> {
@@ -27,9 +18,9 @@ impl<'a, C> Readable<'a, C> for TinyStr4
     }
 }
 
-
 impl<C> Writable<C> for TinyStr4
-    where C: Context
+where
+    C: Context,
 {
     #[inline]
     fn write_to<T: ?Sized + Writer<C>>(&self, writer: &mut T) -> Result<(), C::Error> {
@@ -43,7 +34,8 @@ impl<C> Writable<C> for TinyStr4
 }
 
 impl<'a, C> Readable<'a, C> for TinyStr8
-    where C: Context
+where
+    C: Context,
 {
     #[inline]
     fn read_from<R: Reader<'a, C>>(reader: &mut R) -> Result<Self, C::Error> {
@@ -56,9 +48,9 @@ impl<'a, C> Readable<'a, C> for TinyStr8
     }
 }
 
-
 impl<C> Writable<C> for TinyStr8
-    where C: Context
+where
+    C: Context,
 {
     #[inline]
     fn write_to<T: ?Sized + Writer<C>>(&self, writer: &mut T) -> Result<(), C::Error> {
@@ -72,7 +64,8 @@ impl<C> Writable<C> for TinyStr8
 }
 
 impl<'a, C> Readable<'a, C> for TinyStr16
-    where C: Context
+where
+    C: Context,
 {
     #[inline]
     fn read_from<R: Reader<'a, C>>(reader: &mut R) -> Result<Self, C::Error> {
@@ -85,9 +78,9 @@ impl<'a, C> Readable<'a, C> for TinyStr16
     }
 }
 
-
 impl<C> Writable<C> for TinyStr16
-    where C: Context
+where
+    C: Context,
 {
     #[inline]
     fn write_to<T: ?Sized + Writer<C>>(&self, writer: &mut T) -> Result<(), C::Error> {

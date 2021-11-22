@@ -1,5 +1,5 @@
-use std::slice;
 use std::mem;
+use std::slice;
 
 macro_rules! unsafe_is_length {
     ($expr:expr) => {
@@ -17,7 +17,7 @@ macro_rules! unsafe_is_length {
             // in certain cases.
             unsafe { std::hint::unreachable_unchecked() }
         }
-    }
+    };
 }
 
 pub unsafe trait Primitive {}
@@ -36,15 +36,21 @@ unsafe impl Primitive for f32 {}
 unsafe impl Primitive for f64 {}
 
 #[inline(always)]
-pub fn as_bytes< T: Primitive >( slice: &[T] ) -> &[u8] {
+pub fn as_bytes<T: Primitive>(slice: &[T]) -> &[u8] {
     unsafe {
-        slice::from_raw_parts( slice.as_ptr() as *const u8, slice.len() * mem::size_of::< T >() )
+        slice::from_raw_parts(
+            slice.as_ptr() as *const u8,
+            slice.len() * mem::size_of::<T>(),
+        )
     }
 }
 
 #[inline(always)]
-pub fn as_bytes_mut< T: Primitive >( slice: &mut [T] ) -> &mut [u8] {
+pub fn as_bytes_mut<T: Primitive>(slice: &mut [T]) -> &mut [u8] {
     unsafe {
-        slice::from_raw_parts_mut( slice.as_mut_ptr() as *mut u8, slice.len() * mem::size_of::< T >() )
+        slice::from_raw_parts_mut(
+            slice.as_mut_ptr() as *mut u8,
+            slice.len() * mem::size_of::<T>(),
+        )
     }
 }
